@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="nav_drawer_width">270dp</dimen>
+    <dimen name="toolbar_elevation">4dp</dimen>
+
+    <!-- Standard Metrics -->
+    <dimen name="margin_top">0dp</dimen>
+    <dimen name="margin_edge">0dp</dimen>
+    <dimen name="spacing_normal">8dp</dimen>
+    <dimen name="spacing_micro">4dp</dimen>
+    <dimen name="padding_normal">16dp</dimen>
+    <dimen name="spacing_large">28dp</dimen>
+
+    <!-- App Primary Text Sizes -->
+    <dimen name="app_text_size_small">12sp</dimen>
+    <dimen name="app_text_size_medium">14sp</dimen>
+    <dimen name="app_text_size_large">18sp</dimen>
+    <dimen name="app_text_size_xxlarge">23sp</dimen>
+
+    <!-- Divider Size -->
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="tab_divider_height">3dp</dimen>
+
+    <!-- Body Content -->
+    <dimen name="width_content_small">150dp</dimen>
+    <dimen name="width_header_text_home_size">210dp</dimen>
+    <dimen name="width_table_score">140dp</dimen>
+
+    <!-- Default Image Backgorund Size -->
+    <dimen name="image_background_size">170dp</dimen>
+    <dimen name="image_photo_size">56dp</dimen>
+    <dimen name="image_profile_size">120dp</dimen>
+    <dimen name="image_icon_size">30dp</dimen>
+    <dimen name="image_camera_size">50dp</dimen>
+    <dimen name="image_remark_size">20dp</dimen>
+    <dimen name="image_choice_size">80dp</dimen>
+    <dimen name="image_toga_size">200dp</dimen>
+
+</resources>
