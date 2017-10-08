@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import com.dafian.android.rssfeeder.R;
 import com.dafian.android.rssfeeder.config.ApiConstants;
 import com.dafian.android.rssfeeder.data.entity.ItemEntity;
@@ -18,13 +20,8 @@ import com.dafian.android.rssfeeder.presenter.MainPresenter;
 import com.dafian.android.rssfeeder.ui.BaseFragment;
 import com.dafian.android.rssfeeder.ui.adapter.MainAdapter;
 import com.dafian.android.rssfeeder.ui.extension.RecyclerTouchListener;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * @author Dafian on 10/6/17
@@ -32,16 +29,19 @@ import butterknife.Unbinder;
 
 public class MainFragment extends BaseFragment implements MainView {
 
-    @BindView(R.id.sw_rss)
-    SwipeRefreshLayout swRss;
     @BindView(R.id.rv_rss)
     RecyclerView rvRss;
 
-    private Unbinder unbinder;
-    private MainPresenter presenter;
+    @BindView(R.id.sw_rss)
+    SwipeRefreshLayout swRss;
+
+    private MainAdapter adapter;
 
     private List<ItemEntity> itemList;
-    private MainAdapter adapter;
+
+    private MainPresenter presenter;
+
+    private Unbinder unbinder;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class MainFragment extends BaseFragment implements MainView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
@@ -69,17 +69,18 @@ public class MainFragment extends BaseFragment implements MainView {
     }
 
     @Override
-    public void showRssItem(List<ItemEntity> items) {
-
-        if (itemList.size() > 0) {
-            itemList.clear();
-        }
-
-        itemList.addAll(items);
-        adapter.notifyDataSetChanged();
-
-        rvRss.setVisibility(View.VISIBLE);
+    public void onDestroyView() {
+        super.onDestroyView();
         swRss.setRefreshing(false);
+        swRss.destroyDrawingCache();
+        swRss.clearAnimation();
+        unbinder.unbind();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
     }
 
     @Override
@@ -97,30 +98,17 @@ public class MainFragment extends BaseFragment implements MainView {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (swRss != null) {
-            swRss.setRefreshing(false);
-            swRss.destroyDrawingCache();
-            swRss.clearAnimation();
+    public void showRssItem(List<ItemEntity> items) {
+
+        if (itemList.size() > 0) {
+            itemList.clear();
         }
-        unbinder.unbind();
-    }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        presenter.detachView();
-    }
+        itemList.addAll(items);
+        adapter.notifyDataSetChanged();
 
-    private void initView() {
-
-        itemList = new ArrayList<>();
-        adapter = new MainAdapter(getActivity(), itemList);
-
-        rvRss.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvRss.setItemAnimator(new DefaultItemAnimator());
-        rvRss.setAdapter(adapter);
+        rvRss.setVisibility(View.VISIBLE);
+        swRss.setRefreshing(false);
     }
 
     private void initEvent() {
@@ -144,13 +132,22 @@ public class MainFragment extends BaseFragment implements MainView {
         rvRss.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                int topRowVerticalPosition = (rvRss == null
-                        || rvRss.getChildCount() == 0) ? 0 : rvRss.getChildAt(0)
+                int topRowVerticalPosition = rvRss.getChildCount() == 0 ? 0 : rvRss.getChildAt(0)
                         .getTop();
                 swRss.setEnabled(dx == 0 && topRowVerticalPosition >= 0);
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
+    }
+
+    private void initView() {
+
+        itemList = new ArrayList<>();
+        adapter = new MainAdapter(getActivity(), itemList);
+
+        rvRss.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvRss.setItemAnimator(new DefaultItemAnimator());
+        rvRss.setAdapter(adapter);
     }
 
     private void loadingData() {

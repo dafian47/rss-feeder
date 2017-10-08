@@ -1,7 +1,6 @@
 package com.dafian.android.rssfeeder.ui;
 
 import android.support.v4.app.Fragment;
-
 import com.dafian.android.rssfeeder.data.DataManager;
 import com.dafian.android.rssfeeder.data.api.RssService;
 import com.dafian.android.rssfeeder.data.api.RssServiceFactory;
@@ -14,16 +13,11 @@ import com.dafian.android.rssfeeder.data.repository.ItemRepository;
 
 public abstract class BaseFragment extends Fragment {
 
-    private RssService rssService;
     private DatabaseHelper dbHelper;
+
     private DataManager manager;
 
-    public RssService getRssService() {
-        if (rssService == null) {
-            rssService = RssServiceFactory.create();
-        }
-        return rssService;
-    }
+    private RssService rssService;
 
     public DatabaseHelper getDbHelper() {
         if (dbHelper == null) {
@@ -37,5 +31,12 @@ public abstract class BaseFragment extends Fragment {
             manager = new DataManager(getRssService(), getDbHelper());
         }
         return manager;
+    }
+
+    public RssService getRssService() {
+        if (rssService == null) {
+            rssService = RssServiceFactory.create();
+        }
+        return rssService;
     }
 }

@@ -1,11 +1,9 @@
 package com.dafian.android.rssfeeder.data.api;
 
 import android.support.annotation.NonNull;
-
 import com.dafian.android.rssfeeder.BuildConfig;
 import com.dafian.android.rssfeeder.config.ApiConstants;
 import com.dafian.android.rssfeeder.util.RssConverterFactory;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -21,17 +19,6 @@ public class RssServiceFactory {
     public static RssService create() {
         OkHttpClient okHttp = makeClientService(makeLoggingInterceptor());
         return makeRssService(okHttp);
-    }
-
-    private static RssService makeRssService(OkHttpClient okHttp) {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiConstants.URL_RSS)
-                .client(okHttp)
-                .addConverterFactory(RssConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
-        return retrofit.create(RssService.class);
     }
 
     @NonNull
@@ -53,5 +40,16 @@ public class RssServiceFactory {
         return new HttpLoggingInterceptor()
                 .setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY
                         : HttpLoggingInterceptor.Level.NONE);
+    }
+
+    private static RssService makeRssService(OkHttpClient okHttp) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ApiConstants.URL_RSS)
+                .client(okHttp)
+                .addConverterFactory(RssConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+        return retrofit.create(RssService.class);
     }
 }

@@ -1,12 +1,10 @@
 package com.dafian.android.rssfeeder.util;
 
 import com.dafian.android.rssfeeder.data.api.RssItem;
-
+import java.util.ArrayList;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import java.util.ArrayList;
 
 /**
  * @author Dafian on 10/6/17
@@ -15,32 +13,52 @@ import java.util.ArrayList;
 public class XMLParser extends DefaultHandler {
 
     private static final String sEmptyString = "";
+
     private static final String sItem = "item";
+
     private static final String sTitle = "title";
+
     private static final String sMedia = "media";
+
     private static final String sDescription = "description";
+
     private static final String sLink = "link";
+
     private static final String sAtomLink = "atom:link";
+
     private static final String sUrl = "url";
+
     private static final String sImage = "image";
+
     private static final String sPublishDate = "pubdate";
+
     private static final String sCategory = "category";
 
-    private boolean mElementOn = false;
-    private boolean mParsingTitle = false;
-    private boolean mParsingDescription = false;
-    private boolean mParsingLink = false;
-
-    private String mElementValue = null;
-    private String mTitle = sEmptyString;
-    private String mLink;
-    private String mImage;
-    private String mDate;
-    private String mDescription;
     private String mCategory;
 
+    private String mDate;
+
+    private String mDescription;
+
+    private boolean mElementOn = false;
+
+    private String mElementValue = null;
+
+    private String mImage;
+
+    private String mLink;
+
+    private boolean mParsingDescription = false;
+
+    private boolean mParsingLink = false;
+
+    private boolean mParsingTitle = false;
+
     private RssItem mRssItem;
+
     private final ArrayList<RssItem> mRssItems;
+
+    private String mTitle = sEmptyString;
 
     public XMLParser() {
         super();
@@ -48,40 +66,23 @@ public class XMLParser extends DefaultHandler {
     }
 
     @Override
-    public void startElement(String uri, String localName, String qName,
-                             Attributes attributes) throws SAXException {
-
-        mElementOn = true;
-        switch (localName.toLowerCase()) {
-            case sItem:
-                mRssItem = new RssItem();
-                break;
-            case sTitle:
-                if (!qName.contains(sMedia)) {
-                    mParsingTitle = true;
-                    mTitle = sEmptyString;
-                }
-                break;
-            case sDescription:
-                mParsingDescription = true;
-                mDescription = sEmptyString;
-                break;
-            case sLink:
-                if (!qName.equals(sAtomLink)) {
-                    mParsingLink = true;
-                    mLink = sEmptyString;
-                }
-                break;
-            case sCategory:
-                mCategory = sEmptyString;
-                break;
-        }
-
-        if (attributes != null) {
-            String url = attributes.getValue(sUrl);
-            if (url != null && !url.isEmpty()) {
-                mImage = url;
+    public void characters(char[] ch, int start, int length)
+            throws SAXException {
+        String buff = new String(ch, start, length);
+        if (mElementOn) {
+            if (buff.length() > 2) {
+                mElementValue = buff;
+                mElementOn = false;
             }
+        }
+        if (mParsingTitle) {
+            mTitle = mTitle + buff;
+        }
+        if (mParsingDescription) {
+            mDescription = mDescription + buff;
+        }
+        if (mParsingLink) {
+            mLink = mLink + buff;
         }
     }
 
@@ -99,7 +100,8 @@ public class XMLParser extends DefaultHandler {
                     mRssItem.setPublishDate(mDate);
                     mRssItem.setDescription((mDescription));
                     mRssItem.setCategory(mCategory);
-                    if (mImage == null && mDescription != null && getImageSourceFromDescription(mDescription) != null) {
+                    if (mImage == null && mDescription != null
+                            && getImageSourceFromDescription(mDescription) != null) {
                         mRssItem.setImage(getImageSourceFromDescription(mDescription));
                     }
                     mRssItems.add(mRssItem);
@@ -142,27 +144,47 @@ public class XMLParser extends DefaultHandler {
         }
     }
 
-    @Override
-    public void characters(char[] ch, int start, int length)
-            throws SAXException {
-        String buff = new String(ch, start, length);
-        if (mElementOn) {
-            if (buff.length() > 2) {
-                mElementValue = buff;
-                mElementOn = false;
-            }
-        }
-        if (mParsingTitle) {
-            mTitle = mTitle + buff;
-        }
-        if (mParsingDescription) {
-            mDescription = mDescription + buff;
-        }
-        if (mParsingLink) {
-            mLink = mLink + buff;
-        }
+    public ArrayList<RssItem> getItems() {
+        return mRssItems;
     }
 
+    @Override
+    public void startElement(String uri, String localName, String qName,
+            Attributes attributes) throws SAXException {
+
+        mElementOn = true;
+        switch (localName.toLowerCase()) {
+            case sItem:
+                mRssItem = new RssItem();
+                break;
+            case sTitle:
+                if (!qName.contains(sMedia)) {
+                    mParsingTitle = true;
+                    mTitle = sEmptyString;
+                }
+                break;
+            case sDescription:
+                mParsingDescription = true;
+                mDescription = sEmptyString;
+                break;
+            case sLink:
+                if (!qName.equals(sAtomLink)) {
+                    mParsingLink = true;
+                    mLink = sEmptyString;
+                }
+                break;
+            case sCategory:
+                mCategory = sEmptyString;
+                break;
+        }
+
+        if (attributes != null) {
+            String url = attributes.getValue(sUrl);
+            if (url != null && !url.isEmpty()) {
+                mImage = url;
+            }
+        }
+    }
 
     /**
      * Image is parsed from description if image is null
@@ -190,9 +212,5 @@ public class XMLParser extends DefaultHandler {
             return sEmptyString;
         }
         return s.replace("\n", "");
-    }
-
-    public ArrayList<RssItem> getItems() {
-        return mRssItems;
     }
 }

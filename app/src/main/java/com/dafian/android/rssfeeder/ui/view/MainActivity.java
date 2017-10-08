@@ -2,12 +2,10 @@ package com.dafian.android.rssfeeder.ui.view;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-
-import com.dafian.android.rssfeeder.R;
-import com.dafian.android.rssfeeder.ui.BaseActivity;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.dafian.android.rssfeeder.R;
+import com.dafian.android.rssfeeder.ui.BaseActivity;
 
 /**
  * @author Dafian on 10/6/17

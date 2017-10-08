@@ -12,19 +12,22 @@ import android.view.View;
 
 public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
-    private GestureDetector gestureDetector;
+    public interface ClickListener {
+
+        void onClick(View view, int position);
+
+        void onLongClick(View view, int position);
+    }
+
     private ClickListener clickListener;
 
+    private GestureDetector gestureDetector;
+
     public RecyclerTouchListener(Context context, RecyclerView recyclerView,
-                                 ClickListener clickListener) {
+            ClickListener clickListener) {
         this.clickListener = clickListener;
         gestureDetector = new GestureDetector(context,
                 new GestureDetector.SimpleOnGestureListener() {
-                    @Override
-                    public boolean onSingleTapUp(MotionEvent e) {
-                        return true;
-                    }
-
                     @Override
                     public void onLongPress(MotionEvent e) {
                         View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
@@ -32,6 +35,11 @@ public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
                             clickListener.onLongClick(child, recyclerView
                                     .getChildAdapterPosition(child));
                         }
+                    }
+
+                    @Override
+                    public boolean onSingleTapUp(MotionEvent e) {
+                        return true;
                     }
                 }
         );
@@ -47,19 +55,12 @@ public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
     }
 
     @Override
-    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-    }
-
-    @Override
     public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
     }
 
-    public interface ClickListener {
+    @Override
+    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
 
-        void onClick(View view, int position);
-
-        void onLongClick(View view, int position);
     }
 }

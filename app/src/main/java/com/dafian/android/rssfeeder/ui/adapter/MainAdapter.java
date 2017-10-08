@@ -7,16 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.dafian.android.rssfeeder.R;
 import com.dafian.android.rssfeeder.data.entity.ItemEntity;
 import com.dafian.android.rssfeeder.util.Helper;
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * @author Dafian on 10/6/17
@@ -24,24 +21,19 @@ import butterknife.ButterKnife;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainHolder> {
 
-    private Context context;
-    private List<ItemEntity> items;
-
-    public MainAdapter(Context context, List<ItemEntity> items) {
-        this.context = context;
-        this.items = items;
-    }
-
     class MainHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.iv_thumb)
         ImageView ivThumb;
-        @BindView(R.id.tv_title)
-        TextView tvTitle;
+
         @BindView(R.id.tv_category)
         TextView tvCategory;
+
         @BindView(R.id.tv_pub_date)
         TextView tvPubDate;
+
+        @BindView(R.id.tv_title)
+        TextView tvTitle;
 
         MainHolder(View itemView) {
             super(itemView);
@@ -49,11 +41,18 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainHolder> {
         }
     }
 
+    private Context context;
+
+    private List<ItemEntity> items;
+
+    public MainAdapter(Context context, List<ItemEntity> items) {
+        this.context = context;
+        this.items = items;
+    }
+
     @Override
-    public MainHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(context)
-                .inflate(R.layout.row_main, parent, false);
-        return new MainHolder(itemView);
+    public int getItemCount() {
+        return items.size();
     }
 
     @Override
@@ -71,7 +70,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainHolder> {
     }
 
     @Override
-    public int getItemCount() {
-        return items.size();
+    public MainHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(context)
+                .inflate(R.layout.row_main, parent, false);
+        return new MainHolder(itemView);
     }
 }

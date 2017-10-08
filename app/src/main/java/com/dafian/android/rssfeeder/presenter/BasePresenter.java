@@ -8,6 +8,14 @@ import com.dafian.android.rssfeeder.ui.BaseView;
 
 public class BasePresenter<T extends BaseView> implements Presenter<T> {
 
+    public static class BaseViewNotAttachedException extends RuntimeException {
+
+        public BaseViewNotAttachedException() {
+            super("Please call Presenter.attachView(MvpView) before" +
+                    " requesting data to the Presenter");
+        }
+    }
+
     private T view;
 
     @Override
@@ -15,28 +23,22 @@ public class BasePresenter<T extends BaseView> implements Presenter<T> {
         this.view = view;
     }
 
+    public void checkViewAttached() {
+        if (!isViewAttached()) {
+            throw new BaseViewNotAttachedException();
+        }
+    }
+
     @Override
     public void detachView() {
         this.view = null;
-    }
-
-    public boolean isViewAttached() {
-        return view != null;
     }
 
     public T getView() {
         return view;
     }
 
-    public void checkViewAttached() {
-        if (!isViewAttached()) throw new BaseViewNotAttachedException();
-    }
-
-    public static class BaseViewNotAttachedException extends RuntimeException {
-
-        public BaseViewNotAttachedException() {
-            super("Please call Presenter.attachView(MvpView) before" +
-                    " requesting data to the Presenter");
-        }
+    public boolean isViewAttached() {
+        return view != null;
     }
 }

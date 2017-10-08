@@ -6,17 +6,17 @@ package com.dafian.android.rssfeeder.data.entity;
 
 public class ItemEntity {
 
-    private String title;
+    private String category;
 
     private String description;
-
-    private String category;
 
     private String image;
 
     private String link;
 
     private String publishDate;
+
+    private String title;
 
     public ItemEntity(
             String title, String description, String category, String image,
@@ -30,16 +30,12 @@ public class ItemEntity {
         this.publishDate = publishDate;
     }
 
-    public String getTitle() {
-        return title;
+    public String getCategory() {
+        return category;
     }
 
     public String getDescription() {
         return description;
-    }
-
-    public String getCategory() {
-        return category;
     }
 
     public String getImage() {
@@ -52,5 +48,9 @@ public class ItemEntity {
 
     public String getPublishDate() {
         return publishDate;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

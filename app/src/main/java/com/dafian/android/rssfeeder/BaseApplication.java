@@ -1,9 +1,7 @@
 package com.dafian.android.rssfeeder;
 
 import android.app.Application;
-
 import com.squareup.leakcanary.LeakCanary;
-
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import timber.log.Timber;

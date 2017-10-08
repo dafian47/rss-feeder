@@ -1,6 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'android-apt'
 apply plugin: 'realm-android'
 
 android {
@@ -47,10 +45,6 @@ android {
     }
 }
 
-retrolambda {
-    jvmArgs '-noverify'
-}
-
 dependencies {
 
     // ANDROID SUPPORT
@@ -59,8 +53,6 @@ dependencies {
     compile ("com.android.support:appcompat-v7:$rootProject.supportLibraryVersion") {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-v4'
-//        exclude group: 'com.android.support', module: 'support-vector-drawable'
-//        exclude group: 'com.android.support', module: 'animated-vector-drawable'
     }
     compile ("com.android.support:design:$rootProject.supportLibraryVersion") {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -74,7 +66,7 @@ dependencies {
     }
 
     // VIEW INJECTION
-    apt "com.jakewharton:butterknife-compiler:$rootProject.ext.butterKnifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterKnifeVersion"
     compile ("com.jakewharton:butterknife:$rootProject.ext.butterKnifeVersion") {
         exclude group: 'com.android.support', module: 'support-annotations'
     }

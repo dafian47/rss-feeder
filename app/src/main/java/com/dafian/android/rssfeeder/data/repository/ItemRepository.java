@@ -3,12 +3,10 @@ package com.dafian.android.rssfeeder.data.repository;
 import com.dafian.android.rssfeeder.data.Repository;
 import com.dafian.android.rssfeeder.data.local.ItemModel;
 import com.dafian.android.rssfeeder.util.Helper;
-
-import java.util.Date;
-import java.util.List;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Dafian on 10/6/17
@@ -31,24 +29,12 @@ public class ItemRepository implements Repository<ItemModel> {
     }
 
     @Override
-    public void update(ItemModel item) {
+    public List<ItemModel> getAll() {
         Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(realm1 -> realm1.insertOrUpdate(item));
+        List<ItemModel> itemModels = realm.where(ItemModel.class).findAllAsync();
+        itemModels = realm.copyFromRealm(itemModels);
         realm.close();
-    }
-
-    @Override
-    public void remove(ItemModel item) {
-        Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(realm1 -> item.deleteFromRealm());
-        realm.close();
-    }
-
-    @Override
-    public void removeAll() {
-        Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(realm1 -> realm1.delete(ItemModel.class));
-        realm.close();
+        return itemModels;
     }
 
     @Override
@@ -76,11 +62,23 @@ public class ItemRepository implements Repository<ItemModel> {
     }
 
     @Override
-    public List<ItemModel> getAll() {
+    public void remove(ItemModel item) {
         Realm realm = Realm.getDefaultInstance();
-        List<ItemModel> itemModels = realm.where(ItemModel.class).findAllAsync();
-        itemModels = realm.copyFromRealm(itemModels);
+        realm.executeTransaction(realm1 -> item.deleteFromRealm());
         realm.close();
-        return itemModels;
+    }
+
+    @Override
+    public void removeAll() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> realm1.delete(ItemModel.class));
+        realm.close();
+    }
+
+    @Override
+    public void update(ItemModel item) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(realm1 -> realm1.insertOrUpdate(item));
+        realm.close();
     }
 }

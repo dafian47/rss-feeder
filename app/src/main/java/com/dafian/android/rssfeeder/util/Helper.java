@@ -2,12 +2,10 @@ package com.dafian.android.rssfeeder.util;
 
 import android.support.annotation.NonNull;
 import android.text.format.DateUtils;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
 import timber.log.Timber;
 
 /**

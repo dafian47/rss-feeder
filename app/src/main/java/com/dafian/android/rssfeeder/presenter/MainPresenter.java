@@ -2,7 +2,6 @@ package com.dafian.android.rssfeeder.presenter;
 
 import com.dafian.android.rssfeeder.data.DataManager;
 import com.dafian.android.rssfeeder.ui.view.MainView;
-
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -13,9 +12,9 @@ import rx.schedulers.Schedulers;
 
 public class MainPresenter extends BasePresenter<MainView> {
 
-    private Subscription subscription;
-
     private DataManager manager;
+
+    private Subscription subscription;
 
     public MainPresenter(DataManager manager) {
         this.manager = manager;
@@ -29,12 +28,16 @@ public class MainPresenter extends BasePresenter<MainView> {
     @Override
     public void detachView() {
         super.detachView();
-        if (subscription != null) subscription.unsubscribe();
+        if (subscription != null) {
+            subscription.unsubscribe();
+        }
     }
 
     public void getRss(String url) {
 
-        if (subscription != null) subscription.unsubscribe();
+        if (subscription != null) {
+            subscription.unsubscribe();
+        }
 
         subscription = manager.getRss(url)
                 .subscribeOn(Schedulers.io())

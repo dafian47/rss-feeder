@@ -8,11 +8,9 @@ import io.realm.RealmObject;
 
 public class ItemModel extends RealmObject {
 
-    private String title;
+    private String category;
 
     private String description;
-
-    private String category;
 
     private String image;
 
@@ -20,24 +18,10 @@ public class ItemModel extends RealmObject {
 
     private String publishDate;
 
+    private String title;
+
     public ItemModel() {
 
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getCategory() {
@@ -46,6 +30,14 @@ public class ItemModel extends RealmObject {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getImage() {
@@ -70,5 +62,13 @@ public class ItemModel extends RealmObject {
 
     public void setPublishDate(String publishDate) {
         this.publishDate = publishDate;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

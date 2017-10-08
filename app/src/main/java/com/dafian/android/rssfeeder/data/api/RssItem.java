@@ -8,11 +8,9 @@ import java.io.Serializable;
 
 public class RssItem implements Serializable {
 
-    private String title;
+    private String category;
 
     private String description;
-
-    private String category;
 
     private String image;
 
@@ -20,12 +18,14 @@ public class RssItem implements Serializable {
 
     private String publishDate;
 
-    public String getTitle() {
-        return title;
+    private String title;
+
+    public String getCategory() {
+        return category;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getDescription() {
@@ -34,14 +34,6 @@ public class RssItem implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public String getImage() {
@@ -66,5 +58,13 @@ public class RssItem implements Serializable {
 
     public void setPublishDate(String publishDate) {
         this.publishDate = publishDate;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

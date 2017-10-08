@@ -5,4 +5,5 @@ package com.dafian.android.rssfeeder.data;
  */
 
 public class SessionManager {
+
 }

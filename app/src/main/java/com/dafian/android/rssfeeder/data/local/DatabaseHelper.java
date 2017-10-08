@@ -1,10 +1,9 @@
 package com.dafian.android.rssfeeder.data.local;
 
+import com.dafian.android.rssfeeder.data.api.RssItem;
 import com.dafian.android.rssfeeder.data.entity.ItemEntity;
 import com.dafian.android.rssfeeder.data.mapper.ItemMapper;
 import com.dafian.android.rssfeeder.data.repository.ItemRepository;
-import com.dafian.android.rssfeeder.data.api.RssItem;
-
 import java.util.List;
 
 /**
@@ -23,11 +22,11 @@ public class DatabaseHelper {
         itemRepository.add(ItemMapper.toModel(rssItems));
     }
 
-    public boolean isItemExpired() {
-        return itemRepository.isExpired();
-    }
-
     public List<ItemEntity> getItemAll() {
         return ItemMapper.toEntity(itemRepository.getAll());
+    }
+
+    public boolean isItemExpired() {
+        return itemRepository.isExpired();
     }
 }

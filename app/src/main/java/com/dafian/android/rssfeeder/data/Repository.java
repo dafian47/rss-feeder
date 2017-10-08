@@ -14,13 +14,13 @@ public interface Repository<T> {
 
     void add(List<T> items);
 
-    void update(T item);
+    List<T> getAll();
+
+    boolean isExpired();
 
     void remove(T item);
 
     void removeAll();
 
-    boolean isExpired();
-
-    List<T> getAll();
+    void update(T item);
 }

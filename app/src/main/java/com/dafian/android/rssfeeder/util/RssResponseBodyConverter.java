@@ -2,16 +2,12 @@ package com.dafian.android.rssfeeder.util;
 
 import com.dafian.android.rssfeeder.data.api.RssFeed;
 import com.dafian.android.rssfeeder.data.api.RssItem;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
-
 import java.util.ArrayList;
-
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
 import okhttp3.ResponseBody;
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
 import retrofit2.Converter;
 
 /**
